@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script type="text/javascript">
+		function myClick(f){
+			
+			//유효성 체크
+			//서버쪽보다 클라이언트쪽에서 오류체크를 해줘야 속도가 빠름..
+			var su1 = f.su1.value;
+			var su2 = f.su2.value;
+			
+			if(su1 == ''){
+				alert("첫번째 수를 입력해야 합니다.");
+				return;
+			}
+			
+			if(su2 == ''){
+				alert("두번째 수를 입력해야 합니다.");
+				return;
+			}
+			
+			//정규표현식 : 특정상황에 따른 조건이 일치하는지를 확인하는 문법
+			var pattern = /^[0-9]+$/;
+				
+			//su1에 있는 값을 테스트를 해보니 정규식이 아니라면..?
+			//test() : 정규식을 테스트 하기 위한 메서드!! (정규식을 위해 있음..)
+			if(!pattern.test(su1)||!pattern.test(su2)){
+				//수1에 정수 이외의 값이 들어있다면
+				alert("값은 정수로 입력해야합니다.");
+				return;
+			}
+			
+			f.submit();
+		}
+		
+		</script>
+		
+	</head>
+	<body>
+		<form action = "calc.do">
+		<!-- input태그에 있는 name값만 넘어간다.  -->
+			수1:<input name = "su1"><br>
+			수2:<input name = "su2"><br>
+			<!--type을 submit으로 한번 넘기는 일이 거의 없음...  -->
+			<input type ="button" value = "확인" onclick = "myClick(this.form);">
+		</form>
+	
+	</body>
+</html>

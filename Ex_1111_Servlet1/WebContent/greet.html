@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		
+	</head>
+	
+	<body>
+		<form action = "greet.do"
+			method = "get"> <!-- action : 전달할 페이지  method : 파라미터 방식-->
+			
+			알고싶은 나라의 인사말을 선택하세요<br> <!-- name의 속성이 ? 뒤에 붙어서 kor이라는 value값이  name에 붙어서 서버로 넘어간다. -->
+			<input type ="radio" name = "nat" value = "kor">한국<br>
+			<input type ="radio" name = "nat" value = "eng">미국<br>
+			<input type ="radio" name = "nat" value = "jpn">일본<br>
+			<input type ="radio" name = "nat" value = "chn">중국<br>
+		
+			<input type = "submit" value = "알려주세요">
+		</form>	
+	</body>
+</html>
