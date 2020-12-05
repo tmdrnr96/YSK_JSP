@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sawon">
+
+<!--사원 조회  -->
+ <select id = "sawon_list" resultType="vo.SawonVO">
+<!--resultType : 쿼리문을 수행했을 때, 한줄 단위로 얻을 수 있는 한줄의 단위를 써준다.  -->
+ 	select * from sawon
+ <!--맵퍼에서는 세미콜론(;)을 쓰지 않는다.  -->
+ </select>
+  
+  <!--부서별 사원 조회  -->
+  <!--기본 자료형을 제외한 클래스를 파라미터를 넣기 위해서는 패키지명까지 같이 넣어줘야한다.  -->
+  <!--ex) java.lang.String 으로 받아줘야한다. 기본자료형은 자료형만 써줘도 된다.  -->
+  <select id = "sawon_list_deptno" 
+  		  resultType = "vo.SawonVO" 
+  		  parameterType="int">
+  	<!--맵퍼 파라미터는 \#{파라미터명}으로 써준다.  -->
+  	<!--어차피 파라미터는 무조건 하나만 넘어오기 때문에 파라미터명은 아무렇게나 해도 상관없지만
+  		되도록이면 컬럼명과 일치하게 넣어주는 것이 좋다.  -->
+  	select * from sawon where deptno=#{deptno}
+  </select>
+  
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
