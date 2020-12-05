@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="b">
+<!--typeAliases에서 vo.BoardVO를 board로 지정했기 때문에 board로 가능!  -->
+	<select id = "board_list" resultType ="board" >
+		select * from board order by ref DESC, step
+	</select>
+	
+	<!--새글 추가  --><!--insert, update, delete는  resultType이 필요 없음 어차피 약속된 정수로 반환-->
+	<!--파라미터를 가져올때 vo에 getter가 없으면 오류..  -->
+	<!--삭제여부를 확인하는 컬럼 del_info를 추가!(삭제가 되었으면 -1 아니면 0)  -->
+	<insert id = "board_insert" parameterType="board">
+		insert into board values(
+		seq_board_idx.nextVal,
+		#{name},
+		#{subject},
+		#{content},
+		#{pwd},
+		#{ip},
+		sysdate,
+		0,
+		seq_board_idx.currval,
+		0,
+		0,
+		0		
+		)
+	</insert>
+	<!--idx에 해당되는 게시글 정보 조회(상세보기)   -->
+	<select id="board_one" resultType="board" parameterType="int">
+	select * from board where idx=#{idx}
+	</select>
+	
+	<!-- 조회수 업데이트  -->
+	<update id="board_update_readhit" parameterType="int">
+	update board set readhit = readhit + 1 where idx=#{idx}
+	</update>
+	
+	<!--댓글처리를 위한 step값 증가  -->
+	<update id="board_update_step" parameterType="board">
+	<!-- 레퍼런스가 일치하는 것들만 step값을 하나씩 늘린다.  
+		단, 파라미터로 넘어온 step보다 큰 것만 step을 하나씩 늘린다.-->
+	update board set step = step + 1
+	where ref=#{ref} and step > #{step}
+	</update>
+	
+	<!--댓글 달기  -->
+	<!--댓글과 대댓글도 가능하다.  -->
+	<!-- ref, stpe, depth를 reply.do에서 처리했음.. -->
+	<insert id="board_reply" parameterType="board">
+	insert into board values(
+							seq_board_idx.nextval,
+							#{name},
+							#{subject},
+							#{content},
+							#{pwd},
+							#{ip},
+							sysdate,
+							0,
+							#{ref},
+							#{step},
+							#{depth},
+							0
+							)	
+	</insert>
+	<!-- 삭제(된 것 처럼 업데이트)  -->
+	<update id="board_del" parameterType="board">
+		update board set subject=#{subject}, name=#{name}, del_info=-1
+		where idx=#{idx} 
+	</update>
+	<!--업데이트 제목과 작성자를 수정하고 del_info를 -1로 바꾸는데 idx가 파라미터로 넘어온 idx와 동일한 것만 수정  -->
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
